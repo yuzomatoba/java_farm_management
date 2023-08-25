@@ -4,6 +4,8 @@ package com.betrybe.agrix.ebytr.staff.entity;
 import com.betrybe.agrix.ebytr.staff.security.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,9 +26,13 @@ public class Person {
 
   private String password;
 
+  @Enumerated(EnumType.STRING)
   private Role role;
 
   public Person() {
+  }
+
+  public Person(String username, Role role) {
   }
 
   public Long getId() {
