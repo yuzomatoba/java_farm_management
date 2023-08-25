@@ -50,10 +50,10 @@ public class CropFertilizerService {
    */
   public void associatingCropWithFertilizer(Long cropId, Long fertilizerId) {
     Crop crop = cropRepository.findById(cropId)
-      .orElseThrow(() -> new EntityNotFoundException("Plantação não encontrada!"));
+        .orElseThrow(() -> new EntityNotFoundException("Plantação não encontrada!"));
 
     Fertilizer fertilizer = fertilizerRepository.findById(fertilizerId)
-      .orElseThrow(() -> new EntityNotFoundException("Fertilizante não encontrado!"));
+        .orElseThrow(() -> new EntityNotFoundException("Fertilizante não encontrado!"));
 
     CropFertilizer cropFertilizer = new CropFertilizer(crop, fertilizer);
     cropFertilizerRepository.save(cropFertilizer);
@@ -79,10 +79,10 @@ public class CropFertilizerService {
       Long fertilizerId = cropFertilizer.getFertilizer().getId();
       Fertilizer fertilizer = fertilizerService.gettingFertilizerById(fertilizerId);
       FertilizerDto fertilizerDto = new FertilizerDto(
-        fertilizer.getId(),
-        fertilizer.getName(),
-        fertilizer.getBrand(),
-        fertilizer.getComposition()
+          fertilizer.getId(),
+          fertilizer.getName(),
+          fertilizer.getBrand(),
+          fertilizer.getComposition()
       );
       fertilizerDtos.add(fertilizerDto);
     }

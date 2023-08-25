@@ -33,7 +33,7 @@ public class CropFertilizerController {
   public ResponseEntity<?> gettingFertilizersForCrop(@PathVariable Long cropId) {
     try {
       List<FertilizerDto> fertilizerDtos =
-        myCropFertilizerService.gettingFertilizersForCrop(cropId);
+          myCropFertilizerService.gettingFertilizersForCrop(cropId);
       return ResponseEntity.ok(fertilizerDtos);
     } catch (EntityNotFoundException e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

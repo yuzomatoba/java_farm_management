@@ -39,14 +39,14 @@ public class Crop {
 
   @ManyToOne
   @JoinColumn(name = "farm_id", referencedColumnName = "id",
-    insertable = false, updatable = false)
+      insertable = false, updatable = false)
   private Farm farm;
 
   @ManyToMany
   @JoinTable(
-    name = "crop_fertilizer",
-    joinColumns = @JoinColumn(name = "crop_id"),
-    inverseJoinColumns = @JoinColumn(name = "fertilizer_id")
+      name = "crop_fertilizer",
+      joinColumns = @JoinColumn(name = "crop_id"),
+      inverseJoinColumns = @JoinColumn(name = "fertilizer_id")
   )
   private Set<Fertilizer> fertilizers = new HashSet<>();
 

@@ -39,7 +39,7 @@ public class FertilizerController {
 
   @PostMapping
   public ResponseEntity<FertilizerDto> creatingFertilizer(
-    @RequestBody FertilizerDto myFertilizerDto) {
+      @RequestBody FertilizerDto myFertilizerDto) {
     Fertilizer newFertilizer = myFertilizerDto.toEntity();
     Fertilizer mySavedFertilizer = myFertilizeService.creatingFertilizer(newFertilizer);
 
@@ -56,13 +56,13 @@ public class FertilizerController {
   public ResponseEntity<List<FertilizerDto>> gettingAllFertilizers() {
     List<Fertilizer> allTheFertilizers = myFertilizeService.gettingAllFertilizers();
     List<FertilizerDto> fertilizerDtos = allTheFertilizers.stream()
-      .map(myFertilizer -> new FertilizerDto(
+        .map(myFertilizer -> new FertilizerDto(
         myFertilizer.getId(),
         myFertilizer.getName(),
         myFertilizer.getBrand(),
         myFertilizer.getComposition()
       ))
-      .collect(Collectors.toList());
+        .collect(Collectors.toList());
 
     return ResponseEntity.ok((fertilizerDtos));
   }
@@ -77,10 +77,10 @@ public class FertilizerController {
 
     if (myFertilizer != null) {
       FertilizerDto fertilizerDto = new FertilizerDto(
-        myFertilizer.getId(),
-        myFertilizer.getName(),
-        myFertilizer.getBrand(),
-        myFertilizer.getComposition()
+          myFertilizer.getId(),
+          myFertilizer.getName(),
+          myFertilizer.getBrand(),
+          myFertilizer.getComposition()
       );
       return ResponseEntity.ok(fertilizerDto);
     } else {
