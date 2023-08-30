@@ -39,6 +39,10 @@ public class Person implements UserDetails, GrantedAuthority {
   }
 
   public Person(Long id, String username, String password, Role role) {
+    this.id = id;
+    this.username = username;
+    this.password = password;
+    this.role = role;
   }
 
   public Long getId() {
@@ -136,9 +140,10 @@ public class Person implements UserDetails, GrantedAuthority {
     /**
      * Constructor, Getters and Setters.
      */
-    public PersonDto(Long id, String username, Role role) {
+    public PersonDto(Long id, String username, String password, Role role) {
       this.id = id;
       this.username = username;
+      this.password = password;
       this.role = role;
     }
 
