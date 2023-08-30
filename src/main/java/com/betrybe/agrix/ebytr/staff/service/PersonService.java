@@ -3,13 +3,12 @@ package com.betrybe.agrix.ebytr.staff.service;
 import com.betrybe.agrix.ebytr.staff.entity.Person;
 import com.betrybe.agrix.ebytr.staff.exception.PersonNotFoundException;
 import com.betrybe.agrix.ebytr.staff.repository.PersonRepository;
-import io.micrometer.common.util.StringUtils;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,19 +17,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class PersonService implements UserDetailsService {
 
-  private final PersonRepository personRepository;
+  private final PersonRepository myPersonRepository;
+  private final PasswordEncoder myPasswordEncoder;
 
   @Autowired
   public PersonService(
-      PersonRepository personRepository) {
-    this.personRepository = personRepository;
+      PersonRepository myPersonRepository, PasswordEncoder myPasswordEncoder) {
+    this.myPersonRepository = myPersonRepository;
+    this.myPasswordEncoder = myPasswordEncoder;
   }
 
   /**
    * Returns a person for a given ID.
    */
   public Person getPersonById(Long id) {
-    Optional<Person> person = personRepository.findById(id);
+    Optional<Person> person = myPersonRepository.findById(id);
 
     if (person.isEmpty()) {
       throw new PersonNotFoundException();
@@ -43,7 +44,7 @@ public class PersonService implements UserDetailsService {
    * Returns a person for a given username.
    */
   public Person getPersonByUsername(String username) {
-    Optional<Person> person = personRepository.findByUsername(username);
+    Optional<Person> person = myPersonRepository.findByUsername(username);
 
     if (person.isEmpty()) {
       throw new PersonNotFoundException();
@@ -53,22 +54,19 @@ public class PersonService implements UserDetailsService {
   }
 
   /**
-   * Creates a new person.
+   * Creating a new person.
    */
   public Person create(Person person) {
-    if (StringUtils.isEmpty(person.getPassword())) {
-      throw new IllegalArgumentException("Password cannot be null or empty");
-    }
 
-    String hashedPassword = new BCryptPasswordEncoder().encode(person.getPassword());
-    person.setPassword(hashedPassword);
+    String myEncodedPassword = myPasswordEncoder.encode(person.getPassword());
+    person.setPassword(myEncodedPassword);
 
-    return personRepository.save(person);
+    return myPersonRepository.save(person);
   }
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Person person = personRepository.findByUsername(username)
+    Person person = myPersonRepository.findByUsername(username)
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
     return org.springframework.security.core.userdetails.User.builder()

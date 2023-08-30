@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -98,7 +99,7 @@ public class Person implements UserDetails, GrantedAuthority {
   @Override
   @JsonIgnore
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of(this);
+    return List.of(new SimpleGrantedAuthority(role.getName()));
   }
 
   @Override
