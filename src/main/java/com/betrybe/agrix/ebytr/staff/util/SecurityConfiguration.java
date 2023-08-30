@@ -16,40 +16,51 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * SecurityConfiguration has been created.
+ */
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
-    private final SecurityFilter securityFilter;
+  private final SecurityFilter securityFilter;
 
-    @Autowired
+  @Autowired
     public SecurityConfiguration(SecurityFilter securityFilter) {
-        this.securityFilter = securityFilter;
-    }
+    this.securityFilter = securityFilter;
+  }
 
+  /**
+   * SecurityFilterChain has been created.
+   */
 
-    @Bean
+  @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    return httpSecurity.csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/persons").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/farms")
+                        .hasAnyRole("USER", "MANAGER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/crops").hasAnyRole("MANAGER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/fertilizers").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+  .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-    }
+  }
 
-    @Bean
-    public AuthenticationManager authenticationManager(
+  @Bean
+  public AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+    return authenticationConfiguration.getAuthenticationManager();
+  }
 
-    @Bean
+  @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
+    return new BCryptPasswordEncoder();
+  }
 }

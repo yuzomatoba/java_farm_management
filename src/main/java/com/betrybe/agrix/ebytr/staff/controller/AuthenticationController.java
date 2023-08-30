@@ -17,42 +17,60 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * AuthenticationController has been created.
+ */
+
 @RestController
 public class AuthenticationController {
 
-    private final AuthenticationManager myAuthenticationManager;
-    private final TokenService myTokenService;
-    private final PersonService myPersonService;
+  private final AuthenticationManager myAuthenticationManager;
+  private final TokenService myTokenService;
+  private final PersonService myPersonService;
 
-    @Autowired
-    public AuthenticationController(AuthenticationManager myAuthenticationManager, TokenService myTokenService, PersonService myPersonService) {
-        this.myAuthenticationManager = myAuthenticationManager;
-        this.myTokenService = myTokenService;
-        this.myPersonService = myPersonService;
-    }
+  /**
+   * PersonalAuthenticationController has been created.
+   */
+  @Autowired
+    public AuthenticationController(AuthenticationManager myAuthenticationManager,
+      TokenService myTokenService, PersonService myPersonService) {
+    this.myAuthenticationManager = myAuthenticationManager;
+    this.myTokenService = myTokenService;
+    this.myPersonService = myPersonService;
+  }
 
-    @PostMapping("/persons")
-    public ResponseEntity<ResponsePersonAuthenticationDto> create(@RequestBody PersonAuthenticationDto personDto) {
-        Person newPerson = myPersonService.create(personDto.toPerson());
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponsePersonAuthenticationDto(
+  /**
+   * POST has been created.
+   */
+
+  @PostMapping("/persons")
+    public ResponseEntity<ResponsePersonAuthenticationDto>
+      create(@RequestBody PersonAuthenticationDto personDto) {
+    Person newPerson = myPersonService.create(personDto.toPerson());
+    return ResponseEntity.status(HttpStatus.CREATED).body(new ResponsePersonAuthenticationDto(
                 newPerson.getId(),
                 newPerson.getUsername(),
                 newPerson.getRole()));
-    }
-    @PostMapping("/auth/login")
-    public ResponseEntity<ResponseDto> login(
+  }
+
+  /**
+   * POST has been created.
+   */
+
+  @PostMapping("/auth/login")
+  public ResponseEntity<ResponseDto> login(
             @RequestBody AuthenticationDto authenticationDto) {
-        UsernamePasswordAuthenticationToken usernamePassword =
+    UsernamePasswordAuthenticationToken usernamePassword =
                 new UsernamePasswordAuthenticationToken(
                         authenticationDto.username(), authenticationDto.password());
-        Authentication auth = myAuthenticationManager.authenticate(usernamePassword);
+    Authentication auth = myAuthenticationManager.authenticate(usernamePassword);
 
-        Person person = (Person) auth.getPrincipal();
+    Person person = (Person) auth.getPrincipal();
 
-        String token = myTokenService.generateToken(person);
+    String token = myTokenService.generateToken(person);
 
-        ResponseDto response = new ResponseDto(token);
+    ResponseDto response = new ResponseDto(token);
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-        }
-    }
+    return ResponseEntity.status(HttpStatus.OK).body(response);
+  }
+}

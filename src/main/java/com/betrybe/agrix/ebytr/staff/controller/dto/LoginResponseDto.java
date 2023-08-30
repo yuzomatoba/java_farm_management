@@ -1,5 +1,9 @@
 package com.betrybe.agrix.ebytr.staff.controller.dto;
 
+/**
+ * LoginResponseDto has been created.
+ */
+
 public class LoginResponseDto {
   private String token;
 
