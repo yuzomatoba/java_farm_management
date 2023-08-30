@@ -128,8 +128,8 @@ public class CropController {
    * GET All endpoint has been created.
    */
 
-  @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
   @GetMapping("/crops")
+  @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
   public ResponseEntity<?> gettingAllCrops() {
     List<Crop> allCrops = myCropService.gettingAllCrops();
 

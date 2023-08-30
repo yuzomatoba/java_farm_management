@@ -44,7 +44,7 @@ public class TokenService {
   public String validateToken(String token) {
     Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
     return JWT.require(algorithm)
-          .withIssuer("agrix")
+          .withIssuer("agrixdb")
           .build()
           .verify(token)
           .getSubject();

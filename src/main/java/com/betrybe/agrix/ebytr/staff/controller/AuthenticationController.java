@@ -65,7 +65,9 @@ public class AuthenticationController {
                         authenticationDto.username(), authenticationDto.password());
     Authentication auth = myAuthenticationManager.authenticate(usernamePassword);
 
-    Person person = (Person) auth.getPrincipal();
+    String username = auth.getName();
+
+    Person person = myPersonService.getPersonByUsername(username);
 
     String token = myTokenService.generateToken(person);
 

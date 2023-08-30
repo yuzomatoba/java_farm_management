@@ -1,5 +1,7 @@
 package com.betrybe.agrix.ebytr.staff.util;
 
+import com.betrybe.agrix.ebytr.staff.entity.Person;
+import com.betrybe.agrix.ebytr.staff.security.Role;
 import com.betrybe.agrix.ebytr.staff.service.PersonService;
 import com.betrybe.agrix.ebytr.staff.service.TokenService;
 import jakarta.servlet.FilterChain;
@@ -37,13 +39,16 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     if (myToken != null) {
       String mySubject = myTokenService.validateToken(myToken);
-      UserDetails userDetails = myPersonService.loadUserByUsername(mySubject);
 
-      UsernamePasswordAuthenticationToken myAuthentication =
-          new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities()
-            );
-      SecurityContextHolder.getContext().setAuthentication(myAuthentication);
+      Person person = myPersonService.getPersonByUsername(mySubject);
+
+      if (person != null) {
+        UsernamePasswordAuthenticationToken myAuthentication =
+                new UsernamePasswordAuthenticationToken(
+                        person, person.getPassword(), person.getAuthorities()
+                );
+        SecurityContextHolder.getContext().setAuthentication(myAuthentication);
+      }
     }
     myFilterChain.doFilter(myRequest, myResponse);
   }

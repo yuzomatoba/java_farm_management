@@ -53,8 +53,8 @@ public class FertilizerController {
    * GET all endpoint has been created.
    */
 
-  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<List<FertilizerDto>> gettingAllFertilizers() {
     List<Fertilizer> allTheFertilizers = myFertilizeService.gettingAllFertilizers();
     List<FertilizerDto> fertilizerDtos = allTheFertilizers.stream()

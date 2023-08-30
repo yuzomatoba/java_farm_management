@@ -21,37 +21,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
-  private final SecurityFilter securityFilter;
 
-  @Autowired
-    public SecurityConfiguration(SecurityFilter securityFilter) {
-    this.securityFilter = securityFilter;
-  }
 
   /**
    * SecurityFilterChain has been created.
    */
 
-  @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-    return httpSecurity.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/persons").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/farms")
-                        .hasAnyRole("USER", "MANAGER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/crops").hasAnyRole("MANAGER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/fertilizers").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
-  .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-  }
+
 
   @Bean
   public AuthenticationManager authenticationManager(
