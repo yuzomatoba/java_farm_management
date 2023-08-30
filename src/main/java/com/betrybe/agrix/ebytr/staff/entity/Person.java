@@ -38,6 +38,10 @@ public class Person implements UserDetails, GrantedAuthority {
   public Person() {
   }
 
+  /**
+   * Constructor.
+   */
+
   public Person(Long id, String username, String password, Role role) {
     this.id = id;
     this.username = username;
