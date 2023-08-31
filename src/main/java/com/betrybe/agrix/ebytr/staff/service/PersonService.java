@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,12 @@ import org.springframework.stereotype.Service;
 public class PersonService implements UserDetailsService {
 
   private final PersonRepository myPersonRepository;
-  private final PasswordEncoder myPasswordEncoder;
+  private PasswordEncoder myPasswordEncoder;
+
+  @Autowired
+  public void setPasswordEncoder(PasswordEncoder myPasswordEncoder) {
+    this.myPasswordEncoder = myPasswordEncoder;
+  }
 
   @Autowired
   public PersonService(
@@ -40,6 +46,18 @@ public class PersonService implements UserDetailsService {
   }
 
   /**
+   * Returns a person for a given username.
+   */
+
+  public Person getPersonByUsername(String username) {
+    Optional<Person> person = myPersonRepository.findByUsername(username);
+    if (person.isEmpty()) {
+      throw new PersonNotFoundException();
+    }
+    return person.get();
+  }
+
+  /**
    * Creating a new person.
    */
   public Person create(Person person) {
@@ -50,9 +68,16 @@ public class PersonService implements UserDetailsService {
     return myPersonRepository.save(person);
   }
 
+  /**
+   * Creating a loadUserByUsername.
+   */
+
   @Override
-  public UserDetails loadUserByUsername(String username) {
-    UserDetails person = myPersonRepository.findByUsername(username);
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    Optional<Person> optionalPerson = myPersonRepository.findByUsername(username);
+    Person person = optionalPerson.orElseThrow(() ->
+            new UsernameNotFoundException("Person not found with username: " + username));
+
     return person;
   }
 }

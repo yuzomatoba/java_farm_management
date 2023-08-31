@@ -1,6 +1,5 @@
 package com.betrybe.agrix.ebytr.staff.controller;
 
-import com.betrybe.agrix.controllers.dto.ResponseDto;
 import com.betrybe.agrix.ebytr.staff.controller.dto.AuthenticationDto;
 import com.betrybe.agrix.ebytr.staff.controller.dto.LoginResponseDto;
 import com.betrybe.agrix.ebytr.staff.controller.dto.PersonAuthenticationDto;

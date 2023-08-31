@@ -1,7 +1,5 @@
 package com.betrybe.agrix.ebytr.staff.util;
 
-import com.betrybe.agrix.ebytr.staff.entity.Person;
-import com.betrybe.agrix.ebytr.staff.security.Role;
 import com.betrybe.agrix.ebytr.staff.service.PersonService;
 import com.betrybe.agrix.ebytr.staff.service.TokenService;
 import jakarta.servlet.FilterChain;
