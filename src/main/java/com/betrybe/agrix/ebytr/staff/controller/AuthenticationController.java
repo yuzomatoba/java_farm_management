@@ -2,6 +2,7 @@ package com.betrybe.agrix.ebytr.staff.controller;
 
 import com.betrybe.agrix.controllers.dto.ResponseDto;
 import com.betrybe.agrix.ebytr.staff.controller.dto.AuthenticationDto;
+import com.betrybe.agrix.ebytr.staff.controller.dto.LoginResponseDto;
 import com.betrybe.agrix.ebytr.staff.controller.dto.PersonAuthenticationDto;
 import com.betrybe.agrix.ebytr.staff.controller.dto.ResponsePersonAuthenticationDto;
 import com.betrybe.agrix.ebytr.staff.entity.Person;
@@ -58,21 +59,13 @@ public class AuthenticationController {
    */
 
   @PostMapping("/auth/login")
-  public ResponseEntity<ResponseDto> login(
-            @RequestBody AuthenticationDto authenticationDto) {
-    UsernamePasswordAuthenticationToken usernamePassword =
-                new UsernamePasswordAuthenticationToken(
-                        authenticationDto.username(), authenticationDto.password());
-    Authentication auth = myAuthenticationManager.authenticate(usernamePassword);
-
-    String username = auth.getName();
-
-    Person person = myPersonService.getPersonByUsername(username);
-
-    String token = myTokenService.generateToken(person);
-
-    ResponseDto response = new ResponseDto(token);
-
-    return ResponseEntity.status(HttpStatus.OK).body(response);
+  public ResponseEntity<LoginResponseDto> login(@RequestBody AuthenticationDto auth) {
+    UsernamePasswordAuthenticationToken userPassword = new UsernamePasswordAuthenticationToken(
+            auth.username(), auth.password());
+    Authentication authenticate = myAuthenticationManager.authenticate(userPassword);
+    Person person = (Person) authenticate.getPrincipal();
+    String secretToken = myTokenService.generateToken(person);
+    LoginResponseDto response = new LoginResponseDto(secretToken);
+    return ResponseEntity.ok(response);
   }
 }

@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,19 +40,6 @@ public class PersonService implements UserDetailsService {
   }
 
   /**
-   * Returns a person for a given username.
-   */
-  public Person getPersonByUsername(String username) {
-    Optional<Person> person = myPersonRepository.findByUsername(username);
-
-    if (person.isEmpty()) {
-      throw new PersonNotFoundException();
-    }
-
-    return person.get();
-  }
-
-  /**
    * Creating a new person.
    */
   public Person create(Person person) {
@@ -65,14 +51,8 @@ public class PersonService implements UserDetailsService {
   }
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Person person = myPersonRepository.findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-    return org.springframework.security.core.userdetails.User.builder()
-            .username(person.getUsername())
-            .password(person.getPassword())
-            .roles(person.getRole().name())
-            .build();
+  public UserDetails loadUserByUsername(String username) {
+    UserDetails person = myPersonRepository.findByUsername(username);
+    return person;
   }
 }

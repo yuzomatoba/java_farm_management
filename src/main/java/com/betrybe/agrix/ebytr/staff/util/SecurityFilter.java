@@ -40,7 +40,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     if (myToken != null) {
       String mySubject = myTokenService.validateToken(myToken);
 
-      Person person = myPersonService.getPersonByUsername(mySubject);
+      UserDetails person = myPersonService.loadUserByUsername(mySubject);
 
       if (person != null) {
         UsernamePasswordAuthenticationToken myAuthentication =
