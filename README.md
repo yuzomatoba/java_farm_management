@@ -17,7 +17,7 @@ The Back-End was developed using the following tools:
 - JWT
 
 ## Testing
-- J Unit (test)
+- J Unit
 - Mockito
 
 
