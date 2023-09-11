@@ -2,15 +2,7 @@
 
 
 
-
-
-
-The project had the following goals:
-
-- Queue class creation;
-- Development of a search function
-- Development of a removal function
-- Perform testing
+The Java Farm Management project aimed to create a comprehensive farm management control system. This included features such as authenticated and authorized user access (administrator, user, and manager), harvesting (harvest number, planting area, name, harvest date, and farm identification), used fertilizers (composition, brand, name, and identification number), and respective farms (identification number, size, and name).
 
 
 ## Programming Language:
