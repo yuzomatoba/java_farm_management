@@ -6,19 +6,19 @@ The Java Farm Management project aimed to create a comprehensive farm management
 
 
 ## Programming Language:
-- Python
+- Java
 
-## Installation
+## Back-End
+The Back-End was developed using the following tools:
+- Java Spring Framework
+- Jakarta
+- Java Util
+- Java Time
+- JWT
 
-🤖 Required commands (before starting the project):
-
-Creating a virtual environment for the project:
-
-* `python3 -m venv .venv && source .venv/bin/activate`
-
-Installing the dependencies:
-
-* `python3 -m pip install -r dev-requirements.txt`
+## Testing
+- J Unit (test)
+- Mockito
 
 
 ❗️ Note: 
