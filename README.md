@@ -21,6 +21,4 @@ The Back-End was developed using the following tools:
 - Mockito
 
 
-❗️ Note: 
-The dev-requirements.txt file contains all the dependencies that have been used in the project, acting as a package.json file in a Node.js project. ❗️
 
